@@ -1,0 +1,80 @@
+import tkinter as tk
+from tkinter import messagebox
+
+
+def validate_login():
+  username = username_entry.get()
+  password = password_entry.get()
+
+  # Check if the username and password are correct
+  if username == "admin" and password == "password":
+    messagebox.showinfo("Login Successful", "Welcome to the Chatbot!")
+    login_window.destroy()
+    chatbot_window()
+  else:
+    messagebox.showerror("Login Failed",
+                         "Invalid username or password. Please try again.")
+
+
+def chatbot_window():
+  # Create a new window for the chatbot
+  chatbot_win = tk.Tk()
+  chatbot_win.title("Chatbot - Bannari Amman Institute of Technology")
+
+  # Create a text box to display chatbot responses
+  chat_output = tk.Text(chatbot_win, width=50, height=10)
+  chat_output.pack()
+
+  def send_message():
+    user_input = user_input_entry.get()
+    chat_output.insert(tk.END, "User: " + user_input + "\n")
+    chat_output.insert(tk.END, "Chatbot: " + get_response(user_input) + "\n")
+    user_input_entry.delete(0, tk.END)
+
+  # Create a user input entry field
+  user_input_entry = tk.Entry(chatbot_win, width=50)
+  user_input_entry.pack()
+
+  # Create a send button to interact with the chatbot
+  send_button = tk.Button(chatbot_win, text="Send", command=send_message)
+  send_button.pack()
+
+  def get_response(user_input):
+    # Check for specific user queries and provide relevant responses
+    if "ISE department" in user_input:
+      response = "The Information Science and Engineering (ISE) department focuses on the application of computer science, information technology, and communication systems to design, develop, and manage information systems."
+    elif "total intakes" in user_input:
+      response = "The total intakes in the ISE department are 60."
+    elif "subjects offered in Sem 1" in user_input:
+      response = "The subjects offered in Semester 1 by the ISE department are: Engineering Mathematics 1, Engineering Physics 1, Engineering Chemistry 1, Computer Programming, Basics of Electrical Engineering."
+    # Add more conditional statements for other user queries
+
+    else:
+      response = "I'm sorry, I don't have the information you're looking for. Please ask another question."
+
+    return response
+
+  chatbot_win.mainloop()
+
+
+# Create the login window
+login_window = tk.Tk()
+login_window.title("Login - Bannari Amman Institute of Technology")
+
+# Create username label and entry
+username_label = tk.Label(login_window, text="Username:")
+username_label.pack()
+username_entry = tk.Entry(login_window)
+username_entry.pack()
+
+# Create password label and entry
+password_label = tk.Label(login_window, text="Password:")
+password_label.pack()
+password_entry = tk.Entry(login_window, show="*")
+password_entry.pack()
+
+# Create login button
+login_button = tk.Button(login_window, text="Login", command=validate_login)
+login_button.pack()
+
+login_window.mainloop()
